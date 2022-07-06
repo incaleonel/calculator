@@ -1,3 +1,7 @@
+@font-face {
+    font-family: BCD;
+    src: url('./font/digit_mono_italic.ttf') format('truetype');
+}
 body{
     height: 100vh;
     width: 100vw;
@@ -13,15 +17,100 @@ body{
     height: 28em;
     width: 20em;
     background-color: black;
-    padding: 10px;    
+    padding: 10px;   
+    border-radius: 5%; 
 }
 
-
+#calculator{
+    display:grid;
+    grid-template-columns: repeat(4,4.95em);
+    grid-template-rows: 4em repeat(5,4.65em);
+    gap:1px;
+}
 .key{
-    height: 5em;
-    width: 5em;
-    margin:0;
-    border-radius: 0;
+    font-family: 'Audiowide', cursive;
+    font-size: 1em;
+    background-color: rgb(73, 71, 71);
     border:0;
+    margin:0;   
     padding:0;
+    color:white;
+}
+
+#display{
+    grid-column: 1/5;
+    padding: 1px;
+    order:-1;
+}
+#display p{
+    font-family: BCD;
+    margin:0;
+    color:aliceblue;
+    text-align: end;
+}
+#clear{
+    grid-column: 1/3;
+    grid-row: 2/3;
+    background-color: brown;
+}
+#divide,#multiply,#subtract,#add{
+    background-color: rgb(66, 123, 172);
+}
+#zero{
+    grid-column: 1/3;
+    grid-row: 6/7;
+}
+#divide{
+    order:1;
+}
+#multiply{
+    order:2;
+}
+#seven{
+    order:3;
+}
+#eight{
+    order:4;
+}
+#nine{
+    order:5;
+}
+
+#subtract{
+    order:6;
+}
+
+#four{
+    order:7;
+}
+#five{
+    order:8;
+}
+#six{
+    order:9;
+}
+#add{
+    order:10;
+}
+#one{
+    order:11;
+}
+#two{
+    order:12;
+}
+#three{
+    order:13;
+}
+#decimal{
+    order:14;
+}
+
+#equals{
+    grid-column:4/5;
+    grid-row: 5/7;
+    background-color: rgb(99, 95, 180);
+}
+
+.key:hover{
+    filter:brightness(90%)
 }
