@@ -1,5 +1,8 @@
+import {useSelector,useDispatch} from 'react-redux'
+import {clickClear} from './features/counter/opSlices'
 
-function App() {
+
+export default function App() {
   const key=[{'equals':'='},
              {'zero':'0'},
              {'nine':'9'},
@@ -17,14 +20,23 @@ function App() {
              {'subtract':'-'},
              {'divide':'/'},
              {'multiply':'x'}]
+const dispatch = useDispatch();
+const display = useSelector((state)=>state.op);
+  
   return (
     <div id='calculator'>
     <div id='display'>
-      <p id='result'>Display</p>
-      <p id='op'>subdisplay</p>
+      <p id='result'>{display.display1}</p>
+      <p id='op'>{display.display2}</p>
     </div>
       {
         key.map((x)=>{
+          if(Object.values(x)[0]==='AC'){
+            return(<button className='key' onClick={()=>dispatch(clickClear())}id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>)
+          }
+          if(Object.values(x)[0]==='x' && Object.values(x)[0]==='/' && Object.values(x)[0]==='+' && Object.values(x)[0]==='-'){
+            return(<button className='key' id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>)
+          }
           return(
             <button className='key' id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>
           );
@@ -34,4 +46,3 @@ function App() {
   );
 }
 
-export default App;
