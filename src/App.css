@@ -1,6 +1,6 @@
 @font-face {
     font-family: BCD;
-    src: url('./font/digit_mono_italic.ttf') format('truetype');
+    src: url('./font/digit_italic.ttf') format('truetype');
 }
 body{
     height: 100vh;
