@@ -1,5 +1,5 @@
 import {useSelector,useDispatch} from 'react-redux'
-import {clickClear} from './features/counter/opSlices'
+import {clickClear,clickDigit,clickOperator} from './features/counter/opSlices'
 
 
 export default function App() {
@@ -31,15 +31,19 @@ const display = useSelector((state)=>state.op);
     </div>
       {
         key.map((x)=>{
-          if(Object.values(x)[0]==='AC'){
-            return(<button className='key' onClick={()=>dispatch(clickClear())}id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>)
+          switch(Object.values(x)[0]){
+            case 'AC': 
+                      return(<button className='key limpieza' onClick={()=>dispatch(clickClear())}id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>);
+            case '=': 
+                      return(<button className='key resultado' onClick="" id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>);
+            case 'x':
+            case '/':
+            case '+':
+            case '-': 
+                      return(<button className='key prueba' onClick={()=>dispatch(clickOperator(Object.values(x)[0]))} id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>);
+            default: 
+                      return(<button className='key digit'  onClick={()=>dispatch(clickDigit(Object.values(x)[0]))} id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>);
           }
-          if(Object.values(x)[0]==='x' && Object.values(x)[0]==='/' && Object.values(x)[0]==='+' && Object.values(x)[0]==='-'){
-            return(<button className='key' id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>)
-          }
-          return(
-            <button className='key' id={Object.keys(x)[0]}>{Object.values(x)[0]}</button>
-          );
         })
       }
     </div>
