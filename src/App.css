@@ -39,23 +39,23 @@ body{
     border-radius: 3px;
 }
 
-#display{
+#container_dp{
     grid-column: 1/5;
     padding: 1px;
     order:-1;
 }
-#op{
+#display{
     font-size: 2em;
     height: 2rem;
     color:aliceblue;
 }
 
-#display p{
+#container_dp p{
     font-family: BCD;
     margin:0;
     text-align: end;
 }
-#result{
+#op{
     font-size: 1.5em;
     height: 1.5rem;
     color:rgb(232, 169, 52);
@@ -127,6 +127,6 @@ body{
     border-bottom-right-radius: 15px;
 }
 
-.key:hover{
+.key:active{
     filter:brightness(90%)
 }

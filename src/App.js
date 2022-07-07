@@ -1,5 +1,5 @@
 import {useSelector,useDispatch} from 'react-redux'
-import {clickClear,clickDigit,clickOperator} from './features/counter/opSlices'
+import {clickClear,clickDigit,clickOperator, clickTotal,clickDecimal,clickNegative} from './features/counter/opSlices'
 
 
 export default function App() {
@@ -25,9 +25,9 @@ const display = useSelector((state)=>state.op);
   
   return (
     <div id='calculator'>
-    <div id='display'>
-      <p id='result'>{display.display1}</p>
-      <p id='op'>{display.display2}</p>
+    <div id='container_dp'>
+      <p id='op'>{display.display1}</p>
+      <p id='display'>{display.display2}</p>
     </div>
       {
         key.map((x)=>{
@@ -35,22 +35,30 @@ const display = useSelector((state)=>state.op);
           const key= (x)=>Object.keys(x)[0];
           switch(value(x)){
             case 'AC': 
-                      return(<button className='key limpieza' 
+                      return(<button className='key' 
                                      onClick={()=>dispatch(clickClear())} 
                                      id={key(x)}>{value(x)}</button>);
             case '=': 
-                      return(<button className='key resultado' 
-                                     onClick="" id={key(x)}>{value(x)}</button>);
+                      return(<button className='key' 
+                                     onClick={()=>dispatch(clickTotal())} id={key(x)}>{value(x)}</button>);
             case 'x':
-            case '/':
             case '+':
-            case '-': 
-                      return(<button className='key prueba' 
+            case '/':
+                      return(<button className='key' 
                                       onClick={()=>dispatch(clickOperator(value(x)))} 
-                                      id={key(x)}>{value(x)}
-                            </button>);
+                                      id={key(x)}>{value(x)}</button>);
+            
+            case '-': 
+                      return(<button className='key' 
+                                      onClick={()=>dispatch(clickNegative(value(x)))} 
+                                      id={key(x)}>{value(x)}</button>);
+            case '.': 
+                      return(<button className='key' 
+                                     onClick={()=>dispatch(clickDecimal())} 
+                                    id={key(x)}>{value(x)}
+  </button>);
             default: 
-                      return(<button className='key digit'  
+                      return(<button className='key'  
                                      onClick={()=>dispatch(clickDigit(value(x)))} 
                                      id={key(x)}>{value(x)}
                             </button>);
