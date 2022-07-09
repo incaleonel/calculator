@@ -28,51 +28,59 @@ export const opSlice=createSlice({
                 state.display1=state.display1.substring(0,state.display1.length-1);
                 state.display2=action.payload;
             }else{
-                state.display2=state.lastOp? action.payload: state.display2 + action.payload;
+                state.display2=state.lastOp||state.display2==='-'? action.payload: state.display2 + action.payload;
             }
             state.lastOp=false;
+            state.flagNeg=false;    
             state.display1+=action.payload;
         },
         //ingresa no mas de 2 operadores consecutivos solo para operadores de multiplicacion, division y suma;
         clickOperator:(state,action)=>{
-          if(state.lastOp){
-            state.display1=state.display1.substring(0,state.display1.length-1)
-          }
+        if(state.display1!==''&&state.display1!=='-'){
           if(state.flagNeg){
-            state.display1=state.display1.substring(0,state.display1.length-1)
+            state.display1=state.display1.substring(0,state.display1.length-2);
             state.flagNeg=false;
+          }else if(state.display2==='0.'||state.lastOp||state.display2==='-'){
+            state.display1=state.display1.substring(0,state.display1.length-1);
           }
-          
-            state.display1+=action.payload==='x'? '*':action.payload;
-            
-            state.display2=action.payload;
-            state.lastOp=true;
+          state.display1+=action.payload==='x'? '*':action.payload;
+          state.display2=action.payload;
+          state.lastOp=true;
+          state.decimal=false;
+        }
         },
-        //ingreso de operador negativo, se lo tratara como resta o como el signo del numero
+        //operador negativo, si ya tiene los caracteres '-''-' o '*''-' no hace nada y si display1 tiene '.' al final de la cadena lo elimina. 
         clickNegative:(state)=>{
-            if(state.lastOp){
-                if(state.flagNeg){
-                  state.display1=state.display1.substring(0,state.display1.length-1)  
+           
+            if(!state.flagNeg){
+                if(state.decimal&&state.display2==='0.'){
+                    state.display1=state.display1.substring(0,state.display1.length-1);
                 }
-                state.flagNeg=true;
-            }
+                state.flagNeg=state.lastOp||state.display2==='-'?true:state.flagNeg;
                 state.display1+='-';
                 state.display2='-';
-                state.lastOp=true;
+                state.decimal=false;
+            }
+           
         },
         //limitacion del ingreso del punto decimal
         clickDecimal: (state)=>{
-            if(state.display1===''||state.lastOp){
-                state.display1+=state.decimal?'':'0.';
-                state.display2=state.decimal?'':'0.';
-
-            }else{
-                state.display1+=state.decimal?'':'.';
-                state.display2+=state.decimal?'':'.';
+            if(!state.decimal){
+                if(state.flagNeg||state.lastOp||state.display2==='-'){
+                    state.display1+='0.';
+                    state.display2='0';
+                    state.flagNeg=false;
+                    state.lastOp=false;
+                }else if(state.display1===''){
+                    state.display1+='0.';
+                    
+                }else{
+                    state.display1+='.';
+                    
+                }
+                state.display2+='.';
+                state.decimal=true;
             }
-               
-            state.decimal=true;
-
         },
         clickZero:(state)=>{
 
@@ -80,8 +88,10 @@ export const opSlice=createSlice({
 
             if(state.display2!=='0'){
                 state.display1+='0';
-                state.display2= state.lastOp? '0':state.display2+'0';
+                state.display2= state.lastOp||state.display2==='-'? '0':state.display2+'0';
             }
+            state.lastOp=false;
+            state.flagNeg=false;
         },
         //muestra el resultado a la salida
         clickTotal: (state)=>{
