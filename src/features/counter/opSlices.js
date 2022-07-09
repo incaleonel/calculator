@@ -24,17 +24,14 @@ export const opSlice=createSlice({
         //ingresa y muestra a la salida digitos de 0 a 9
         clickDigit:(state,action)=>{
             
-            if(state.display2==='0' && action.payload!=='.'){
-                state.display1=action.payload
+            if(state.display2==='0'){
+                state.display1=state.display1.substring(0,state.display1.length-1);
                 state.display2=action.payload;
             }else{
-                state.display1+=action.payload;
-                state.display2=state.lastOp?action.payload:state.display2+action.payload;
+                state.display2=state.lastOp? action.payload: state.display2 + action.payload;
             }
-            state.decimal=state.lastOp?false:state.decimal;
             state.lastOp=false;
-            state.flagNeg=false;    
-            
+            state.display1+=action.payload;
         },
         //ingresa no mas de 2 operadores consecutivos solo para operadores de multiplicacion, division y suma;
         clickOperator:(state,action)=>{
@@ -65,15 +62,26 @@ export const opSlice=createSlice({
         },
         //limitacion del ingreso del punto decimal
         clickDecimal: (state)=>{
-            if(state.display1===''){
+            if(state.display1===''||state.lastOp){
                 state.display1+=state.decimal?'':'0.';
+                state.display2=state.decimal?'':'0.';
+
             }else{
                 state.display1+=state.decimal?'':'.';
+                state.display2+=state.decimal?'':'.';
             }
-            
-            state.display2+=state.decimal?'':'.';
+               
             state.decimal=true;
 
+        },
+        clickZero:(state)=>{
+
+            state.display1+=state.display1===''?'0':'';
+
+            if(state.display2!=='0'){
+                state.display1+='0';
+                state.display2= state.lastOp? '0':state.display2+'0';
+            }
         },
         //muestra el resultado a la salida
         clickTotal: (state)=>{
@@ -82,6 +90,6 @@ export const opSlice=createSlice({
     }
 })
 
-export const {clickClear,clickDigit,clickOperator, clickTotal,clickDecimal,clickNegative} = opSlice.actions
+export const {clickClear,clickDigit,clickOperator, clickTotal,clickDecimal,clickNegative,clickZero} = opSlice.actions
 
 export default opSlice.reducer

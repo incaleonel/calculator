@@ -1,5 +1,5 @@
 import {useSelector,useDispatch} from 'react-redux'
-import {clickClear,clickDigit,clickOperator, clickTotal,clickDecimal,clickNegative} from './features/counter/opSlices'
+import {clickClear,clickDigit,clickOperator, clickTotal,clickDecimal,clickNegative,clickZero} from './features/counter/opSlices'
 
 
 export default function App() {
@@ -34,6 +34,9 @@ const display = useSelector((state)=>state.op);
           const value= (x)=>Object.values(x)[0];
           const key= (x)=>Object.keys(x)[0];
           switch(value(x)){
+            case '0': return(<button className='key' 
+                      onClick={()=>dispatch(clickZero())} 
+                      id={key(x)}>{value(x)}</button>);
             case 'AC': 
                       return(<button className='key' 
                                      onClick={()=>dispatch(clickClear())} 
