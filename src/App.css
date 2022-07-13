@@ -66,7 +66,7 @@ body{
     background-color: brown;
     border-top-left-radius: 5px;
 }
-#divide,#multiply,#subtract,#add{
+.Operator{
     background-color: rgb(66, 123, 172);
 }
 #zero{

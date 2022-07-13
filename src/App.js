@@ -47,12 +47,12 @@ const display = useSelector((state)=>state.op);
             case 'x':
             case '+':
             case '/':
-                      return(<button className='key' 
+                      return(<button className='key Operator' 
                                       onClick={()=>dispatch(clickOperator(value(x)))} 
                                       id={key(x)}>{value(x)}</button>);
             
             case '-': 
-                      return(<button className='key' 
+                      return(<button className='key Operator' 
                                       onClick={()=>dispatch(clickNegative(value(x)))} 
                                       id={key(x)}>{value(x)}</button>);
             case '.': 
