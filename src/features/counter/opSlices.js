@@ -49,7 +49,7 @@ export const opSlice=createSlice({
           state.decimal=false;
         }
         },
-        //operador negativo, si ya tiene los caracteres '-''-' o '*''-' no hace nada y si display1 tiene '.' al final de la cadena lo elimina. 
+        //operador negativo, si ya tiene los caracteres '-''-' o '*''-' setea flagNeg en true y si display1 tiene '.' al final de la cadena lo elimina. 
         clickNegative:(state)=>{
            
             if(!state.flagNeg){
