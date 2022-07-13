@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {result} from '../resultado'
 
 const initialState={
     display1: '',
@@ -95,6 +96,8 @@ export const opSlice=createSlice({
         },
         //muestra el resultado a la salida
         clickTotal: (state)=>{
+            state.display2 = result(state.display1);
+            state.display1+= '=' + result(state.display1);
             
         }
     }
