@@ -24,6 +24,10 @@ export const opSlice=createSlice({
         },
         //ingresa y muestra a la salida digitos de 0 a 9
         clickDigit:(state,action)=>{
+            if(/=/.test(state.display1)){
+                state.display1='';
+                state.display2='';
+            }
             
             if(state.display2==='0'){
                 state.display1=state.display1.substring(0,state.display1.length-1);
@@ -37,6 +41,10 @@ export const opSlice=createSlice({
         },
         //ingresa no mas de 2 operadores consecutivos solo para operadores de multiplicacion, division y suma;
         clickOperator:(state,action)=>{
+            if(/=/.test(state.display1)){
+                state.display1=state.display2
+            }
+
         if(state.display1!==''&&state.display1!=='-'){
           if(state.flagNeg){
             state.display1=state.display1.substring(0,state.display1.length-2);
@@ -52,6 +60,10 @@ export const opSlice=createSlice({
         },
         //operador negativo, si ya tiene los caracteres '-''-' o '*''-' setea flagNeg en true y si display1 tiene '.' al final de la cadena lo elimina. 
         clickNegative:(state)=>{
+            if(/=/.test(state.display1)){
+                state.display1=state.display2;
+                
+            }
            
             if(!state.flagNeg){
                 if(state.decimal&&state.display2==='0.'){
@@ -66,6 +78,10 @@ export const opSlice=createSlice({
         },
         //limitacion del ingreso del punto decimal
         clickDecimal: (state)=>{
+            if(/=/.test(state.display1)){
+                state.display1='';
+                state.display2='';
+            }
             if(!state.decimal){
                 if(state.flagNeg||state.lastOp||state.display2==='-'){
                     state.display1+='0.';
@@ -84,7 +100,10 @@ export const opSlice=createSlice({
             }
         },
         clickZero:(state)=>{
-
+        if(/=/.test(state.display1)){
+            state.display1='';
+            state.display2='';
+        }
             state.display1+=state.display1===''?'0':'';
 
             if(state.display2!=='0'){
@@ -96,9 +115,11 @@ export const opSlice=createSlice({
         },
         //muestra el resultado a la salida
         clickTotal: (state)=>{
-            state.display2 = result(state.display1);
-            state.display1+= '=' + result(state.display1);
-            
+            if(!(/^[*/]|=/.test(state.display1)) && !(state.display1==='--')){
+                const resultado= result(state.display1);
+                state.display2 = resultado;
+                state.display1+= '=' + resultado;
+            }
         }
     }
 })
